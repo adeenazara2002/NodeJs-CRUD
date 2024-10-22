@@ -53,7 +53,7 @@ app.delete("/posts/:id", (req, res) => {
   const postIndex = posts.findIndex((post) => post.id === parseInt(id));
 
   if (postIndex !== -1) {
-    posts.splice(postIndex, 1);  
+    posts.splice(postIndex, 1);
     res.status(200).json({ message: "Post deleted successfully" });
   } else {
     res.status(404).json({ message: "Post not found" });
@@ -67,13 +67,12 @@ app.put("/posts/:id", (req, res) => {
   const postIndex = posts.findIndex((post) => post.id === parseInt(id));
 
   if (postIndex !== -1) {
-    posts[postIndex] = { id: parseInt(id), ...req.body };  
+    posts[postIndex] = { id: parseInt(id), ...req.body };
     res.status(200).json(posts[postIndex]);
   } else {
     res.status(404).json({ message: "Post not found" });
   }
 });
-
 
 // COMMENTS
 // GET
@@ -94,10 +93,12 @@ app.post("/comments", (req, res) => {
 
 app.delete("/comments/:id", (req, res) => {
   const { id } = req.params;
-  const commentIndex = comments.findIndex((comment) => comment.id === parseInt(id));
+  const commentIndex = comments.findIndex(
+    (comment) => comment.id === parseInt(id)
+  );
 
   if (commentIndex !== -1) {
-    comments.splice(commentIndex, 1);  
+    comments.splice(commentIndex, 1);
     res.status(200).json({ message: "Comment deleted successfully" });
   } else {
     res.status(404).json({ message: "Comment not found" });
@@ -108,15 +109,59 @@ app.delete("/comments/:id", (req, res) => {
 
 app.put("/comments/:id", (req, res) => {
   const { id } = req.params;
-  const commentIndex = comments.findIndex((comment) => comment.id === parseInt(id));
+  const commentIndex = comments.findIndex(
+    (comment) => comment.id === parseInt(id)
+  );
 
   if (commentIndex !== -1) {
-    posts[commentIndex] = { id: parseInt(id), ...req.body };  
+    posts[commentIndex] = { id: parseInt(id), ...req.body };
     res.status(200).json(comments[commentIndex]);
   } else {
     res.status(404).json({ message: "Comment not found" });
   }
 });
 
+// ALBUMS
+// GET
+
+app.get("/albums", (req, res) => {
+  return res.json(albums);
+});
+
+// POST
+
+app.post("/albums", (req, res) => {
+  const newAlbums = { id: albums.length + 1, ...req.body };
+  albums.push(newAlbums);
+  res.status(201).json(newAlbums);
+});
+
+// DELETE
+
+app.delete("/albums/:id", (req, res) => {
+  const { id } = req.params;
+  const albumIndex = albums.findIndex((album) => album.id === parseInt(id));
+
+  if (albumIndex !== -1) {
+    albums.splice(albumIndex, 1);
+    res.status(200).json({ message: "Album deleted successfully" });
+  } else {
+    res.status(404).json({ message: "Album not found" });
+  }
+});
+
+// PUT
+
+app.put("/albums/:id", (req, res) => {
+  const { id } = req.params;
+  const albumIndex = albums.findIndex((album) => album.id === parseInt(id));
+
+  if (albumIndex !== -1) {
+    albums[albumIndex] = { id: parseInt(id), ...req.body };
+    res.status(200).json(albums[albumIndex]);
+  } else {
+    res.status(404).json({ message: "Album not found" });
+  }
+});
 
 app.listen(PORT, () => console.log(`Server started at port ${PORT}`));
