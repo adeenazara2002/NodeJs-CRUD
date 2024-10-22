@@ -31,6 +31,7 @@ app.get("/", (req, res) => {
 
 // Routes
 
+// POSTS
 // GET
 
 app.get("/posts", (req, res) => {
@@ -73,6 +74,49 @@ app.put("/posts/:id", (req, res) => {
   }
 });
 
+
+// COMMENTS
+// GET
+
+app.get("/comments", (req, res) => {
+  return res.json(comments);
+});
+
+// POST
+
+app.post("/comments", (req, res) => {
+  const newComments = { id: posts.length + 1, ...req.body };
+  comments.push(newComments);
+  res.status(201).json(newComments);
+});
+
+// DELETE
+
+app.delete("/comments/:id", (req, res) => {
+  const { id } = req.params;
+  const commentIndex = comments.findIndex((comment) => comment.id === parseInt(id));
+
+  if (commentIndex !== -1) {
+    comments.splice(commentIndex, 1);  
+    res.status(200).json({ message: "Comment deleted successfully" });
+  } else {
+    res.status(404).json({ message: "Comment not found" });
+  }
+});
+
+// PUT
+
+app.put("/comments/:id", (req, res) => {
+  const { id } = req.params;
+  const commentIndex = comments.findIndex((comment) => comment.id === parseInt(id));
+
+  if (commentIndex !== -1) {
+    posts[commentIndex] = { id: parseInt(id), ...req.body };  
+    res.status(200).json(comments[commentIndex]);
+  } else {
+    res.status(404).json({ message: "Comment not found" });
+  }
+});
 
 
 app.listen(PORT, () => console.log(`Server started at port ${PORT}`));

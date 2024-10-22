@@ -3500,3 +3500,5 @@ const comments =[
       "body": "perspiciatis quis doloremque\nveniam nisi eos velit sed\nid totam inventore voluptatem laborum et eveniet\naut aut aut maxime quia temporibus ut omnis"
     }
   ]
+
+module.exports = comments;

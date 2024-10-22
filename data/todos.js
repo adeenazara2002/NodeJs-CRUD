@@ -1200,3 +1200,5 @@ const todos =[
       "completed": false
     }
   ]
+
+module.exports = todos;

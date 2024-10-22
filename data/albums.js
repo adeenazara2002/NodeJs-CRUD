@@ -500,3 +500,5 @@ const albums =[
       "title": "enim repellat iste"
     }
   ]
+
+module.exports = albums;
