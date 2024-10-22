@@ -164,4 +164,48 @@ app.put("/albums/:id", (req, res) => {
   }
 });
 
+
+// PHOTOS
+// GET
+
+app.get("/photos", (req, res) => {
+  return res.json(photos);
+});
+
+// POST
+
+app.post("/photos", (req, res) => {
+  const newPhotos = { id: photos.length + 1, ...req.body };
+  photos.push(newPhotos);
+  res.status(201).json(newPhotos);
+});
+
+// DELETE
+
+app.delete("/photos/:id", (req, res) => {
+  const { id } = req.params;
+  const photoIndex = photos.findIndex((photo) => photo.id === parseInt(id));
+
+  if (photoIndex !== -1) {
+    photo.splice(photoIndex, 1);
+    res.status(200).json({ message: "Photos deleted successfully" });
+  } else {
+    res.status(404).json({ message: "Photos not found" });
+  }
+});
+
+// PUT
+
+app.put("/photos/:id", (req, res) => {
+  const { id } = req.params;
+  const photoIndex = photos.findIndex((photo) => photo.id === parseInt(id));
+
+  if (photoIndex !== -1) {
+    albums[albumIndex] = { id: parseInt(id), ...req.body };
+    res.status(200).json(albums[albumIndex]);
+  } else {
+    res.status(404).json({ message: "Album not found" });
+  }
+});
+
 app.listen(PORT, () => console.log(`Server started at port ${PORT}`));
