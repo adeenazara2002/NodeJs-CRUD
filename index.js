@@ -1,5 +1,11 @@
 const express = require("express");
 const posts = require("./data/posts");
+const comments = require("./data/comments");
+const albums = require("./data/albums");
+const photos = require("./data/photos");
+const todos = require("./data/todos");
+const users = require("./data/users");
+
 const app = express();
 const PORT = 3000;
 
@@ -25,10 +31,13 @@ app.get("/", (req, res) => {
 
 // Routes
 
+// GET
+
 app.get("/posts", (req, res) => {
   return res.json(posts);
 });
 
+// POST
 
 app.post("/posts", (req, res) => {
   const newPost = { id: posts.length + 1, ...req.body };
@@ -36,6 +45,7 @@ app.post("/posts", (req, res) => {
   res.status(201).json(newPost);
 });
 
+// DELETE
 
 app.delete("/posts/:id", (req, res) => {
   const { id } = req.params;
@@ -48,6 +58,21 @@ app.delete("/posts/:id", (req, res) => {
     res.status(404).json({ message: "Post not found" });
   }
 });
+
+// PUT
+
+app.put("/posts/:id", (req, res) => {
+  const { id } = req.params;
+  const postIndex = posts.findIndex((post) => post.id === parseInt(id));
+
+  if (postIndex !== -1) {
+    posts[postIndex] = { id: parseInt(id), ...req.body };  
+    res.status(200).json(posts[postIndex]);
+  } else {
+    res.status(404).json({ message: "Post not found" });
+  }
+});
+
 
 
 app.listen(PORT, () => console.log(`Server started at port ${PORT}`));
